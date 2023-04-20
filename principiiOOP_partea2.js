@@ -74,7 +74,12 @@ class VehiculElectric extends Car {
     
     accelereaza(){
         this._viteza += 10;
-        this.#baterie -= 5;
+
+        if (this.#baterie - 5 < 0){
+            this.#baterie = 0;
+        } else {
+            this.#baterie -= 5;
+        }        
     }        
 
     descrie(){
@@ -113,16 +118,202 @@ class VehiculElectric extends Car {
 // console.log(masina.descrie());
 
 
-const masinaElectrica = new VehiculElectric();
-masinaElectrica.model = "Renault Zoe";
-masinaElectrica.culoare = "gri";
-masinaElectrica.anFabricatie = "2020";
-masinaElectrica.viteza = 70;
-console.log(masinaElectrica);
+// const masinaElectrica = new VehiculElectric();
+// masinaElectrica.model = "Renault Zoe";
+// masinaElectrica.culoare = "gri";
+// masinaElectrica.anFabricatie = "2020";
+// masinaElectrica.viteza = 70;
+// console.log(masinaElectrica);
 
-masinaElectrica.accelereaza();
-// masinaElectrica.incarcare();
-masinaElectrica.accelereaza();
-console.log(masinaElectrica.descrie());
+// masinaElectrica.accelereaza();
+// // masinaElectrica.incarcare();
+// masinaElectrica.accelereaza();
+// console.log(masinaElectrica.descrie());
+
+
+
+const nCar = new Car(),
+      eCar = new VehiculElectric();
+
+let model = document.getElementById('model'),
+    color = document.getElementById('color'),
+    year = document.getElementById('year'),
+    speed = document.getElementById('speed'),
+    btnAccelereaza = document.querySelector('#accelerate'),
+    btnFraneaza = document.querySelector('#frana'),
+    btnIncarca = document.querySelector('#charge'),
+    radio1 = document.getElementById('electric'),
+    radio2 = document.getElementById('non-electric');
+
+let butonApasat = false;
+
+btnAccelereaza.addEventListener('click', () => {
+
+    if (radio1.checked) {
+
+        if (butonApasat === false){
+            butonApasat = true;
+
+            eCar.model = model.value;
+            eCar.culoare = color.value;
+            eCar.anFabricatie = year.value;
+            eCar.viteza = Number(speed.value);
+
+            eCar.accelereaza();
+            document.querySelector('#result').textContent = eCar.descrie();  
+        
+        } else {
+            eCar.accelereaza();
+            document.querySelector('#result').textContent = eCar.descrie();  
+        }
+        radio1.disabled = true;      
+        radio2.disabled = false; 
+
+    } else {
+        if (butonApasat === false){
+            butonApasat = true;
+
+            nCar.model = model.value;
+            nCar.culoare = color.value;
+            nCar.anFabricatie = year.value;
+            nCar.viteza = Number(speed.value);
+
+            nCar.accelereaza();
+            document.querySelector('#result').textContent = nCar.descrie();       
+        } else {
+            nCar.accelereaza();
+            document.querySelector('#result').textContent = nCar.descrie();  
+        }
+        radio2.disabled = true; 
+        radio1.disabled = false;  
+    }
+
+    
+})
+
+
+btnFraneaza.addEventListener('click', () => {
+
+    if (radio1.checked) {
+
+        // if (butonApasat === false){
+        //     butonApasat = true;
+
+        //     eCar.model = model.value;
+        //     eCar.culoare = color.value;
+        //     eCar.anFabricatie = year.value;
+        //     eCar.viteza = Number(speed.value);
+
+        //     eCar.accelereaza();
+        //     document.querySelector('#result').textContent = eCar.descrie();  
+        
+        // } else {
+        //     eCar.accelereaza();
+        //     document.querySelector('#result').textContent = eCar.descrie();  
+        // }
+
+
+        
+        radio1.disabled = true;      
+        radio2.disabled = false; 
+
+    } else {
+        if (butonApasat === false){
+            butonApasat = true;
+
+            nCar.model = model.value;
+            nCar.culoare = color.value;
+            nCar.anFabricatie = year.value;
+            nCar.viteza = Number(speed.value);
+
+            nCar.franeaza();
+            document.querySelector('#result').textContent = nCar.descrie();       
+        } else {
+            nCar.franeaza();
+            document.querySelector('#result').textContent = nCar.descrie();  
+        }
+        radio2.disabled = true; 
+        radio1.disabled = false;  
+    }
+})
+
+btnIncarca.addEventListener('click', () => {
+
+    if (radio1.checked) {
+
+        if (butonApasat === false){
+            butonApasat = true;
+
+            eCar.model = model.value;
+            eCar.culoare = color.value;
+            eCar.anFabricatie = year.value;
+            eCar.viteza = Number(speed.value);
+
+            eCar.incarcare();
+            document.querySelector('#result').textContent = eCar.descrie();  
+        
+        } else {
+            eCar.incarcare();
+            document.querySelector('#result').textContent = eCar.descrie();  
+        }
+        radio1.disabled = true;      
+        radio2.disabled = false; 
+
+    } else {
+        // if (butonApasat === false){
+        //     butonApasat = true;
+
+        //     nCar.model = model.value;
+        //     nCar.culoare = color.value;
+        //     nCar.anFabricatie = year.value;
+        //     nCar.viteza = Number(speed.value);
+
+        //     nCar.franeaza();
+        //     document.querySelector('#result').textContent = nCar.descrie();       
+        // } else {
+        //     nCar.franeaza();
+        //     document.querySelector('#result').textContent = nCar.descrie();  
+        // }
+        
+        radio2.disabled = true; 
+        radio1.disabled = false;  
+    }
+})
+
+
+radio1.addEventListener('click', () => {
+    model.value = "";
+    color.value = "";
+    year.value = "";
+    speed.value = "";
+    eCar.baterie = 100;
+
+    btnFraneaza.disabled = true;
+    btnIncarca.disabled = false;
+    butonApasat = false;
+})
+
+radio2.addEventListener('click', () => {
+    model.value = "";
+    color.value = "";
+    year.value = "";
+    speed.value = "";
+
+    btnFraneaza.disabled = false;
+    btnIncarca.disabled = true;
+    butonApasat = false;
+})
+
+
+
+
+
+
+
+
+
+
+
+
 
 
